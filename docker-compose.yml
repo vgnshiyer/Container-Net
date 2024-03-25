@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  ubuntu1:
+    hostname: ubuntu1
+    container_name: ubuntu1
+    ports:
+      - ${UBUNTU1_PORT_SSHD}:22
+      - ${UBUNTU1_PORT_TTYD}:7681
+    networks:
+      - container_net
+
+networks:
+  container_net:
+    name: container_net
