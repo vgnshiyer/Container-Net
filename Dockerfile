@@ -24,10 +24,10 @@ RUN mkdir -p /conf \
     && echo guest > /conf/guest_passwd \
     && echo '/bin/bash' > /conf/guest_shell
 
-COPY ttyd.x86_64 /bin/ttyd.x86_64
-COPY ttyd.aarch64 /bin/ttyd.aarch64
+COPY binaries/ttyd.x86_64 /bin/ttyd.x86_64
+COPY binaries/ttyd.aarch64 /bin/ttyd.aarch64
+RUN ln -s /bin/ttyd.$(uname -m) /bin/ttyd
 
 EXPOSE 7681
 
 CMD tail -f /dev/null
-# RUN ln -s /bin/ttyd.$(uname -m) /bin/ttyd
