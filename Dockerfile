@@ -1,6 +1,5 @@
 FROM ubuntu:22.04
 
-CMD ["/bin/bash"]
 RUN apt-get update \
     && apt-get install -y systemd \
     && apt-get clean \
@@ -24,10 +23,29 @@ RUN mkdir -p /conf \
     && echo guest > /conf/guest_passwd \
     && echo '/bin/bash' > /conf/guest_shell
 
+RUN useradd -m -s /bin/bash guest \
+    && echo "guest:guest" | chpasswd
+
+RUN echo "root:root" | chpasswd
+
 COPY binaries/ttyd.x86_64 /bin/ttyd.x86_64
 COPY binaries/ttyd.aarch64 /bin/ttyd.aarch64
+COPY binaries/ttyd.service /lib/systemd/system/ttyd.service
+RUN chmod +x /bin/ttyd.x86_64 /bin/ttyd.aarch64
 RUN ln -s /bin/ttyd.$(uname -m) /bin/ttyd
 
+RUN sed -ri 's/^#?PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config \
+    && sed -ri 's/^#?PasswordAuthentication\s+.*/PasswordAuthentication yes/' /etc/ssh/sshd_config \
+    && sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
+
+RUN systemctl enable ssh ttyd
+
+EXPOSE 22
 EXPOSE 7681
 
-CMD tail -f /dev/null
+RUN apt-get update \
+    && apt-get install -y curl vim openssl iproute2 iputils-ping net-tools lsof unzip git \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+CMD ["tail", "-f", "/dev/null"]

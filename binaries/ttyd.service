@@ -1,0 +1,10 @@
+[unit]
+description=Terminal over HTTP
+
+[Service]
+User=root
+ExecStart=/bin/ttyd -W -t titleFixed 'ContainerNet' login
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
