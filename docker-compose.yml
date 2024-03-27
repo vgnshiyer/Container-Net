@@ -5,7 +5,7 @@ services:
     hostname: ubuntu1
     container_name: ubuntu1
     build:
-      context: "./image-template"
+      context: "./image-templates/${UBUNTU_DOCKERFILE}"
     image: ubuntu1
     privileged: true
     ports:
@@ -18,7 +18,7 @@ services:
     hostname: ubuntu2
     container_name: ubuntu2
     build:
-      context: "./image-template"
+      context: "./image-template/${UBUNTU_DOCKERFILE}"
     image: ubuntu2
     privileged: true
     ports:
