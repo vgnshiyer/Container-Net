@@ -4,9 +4,26 @@ services:
   ubuntu1:
     hostname: ubuntu1
     container_name: ubuntu1
+    build:
+      context: "./image-template"
+    image: ubuntu1
+    privileged: true
     ports:
       - ${UBUNTU1_PORT_SSHD}:22
       - ${UBUNTU1_PORT_TTYD}:7681
+    networks:
+      - container_net
+
+  ubuntu2:
+    hostname: ubuntu2
+    container_name: ubuntu2
+    build:
+      context: "./image-template"
+    image: ubuntu2
+    privileged: true
+    ports:
+      - ${UBUNTU2_PORT_SSHD}:22
+      - ${UBUNTU2_PORT_TTYD}:7681
     networks:
       - container_net
 
