@@ -1,22 +1,22 @@
-FROM ubuntu:22.04
+FROM centos:latest
 
 # Setup environment
-RUN apt-get update \
-    && apt-get install -y systemd \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN yum update -y \
+    && yum install -y systemd \
+    && yum clean all \
+    && rm -rf /var/cache/yum
 
 # Setup locales, SSH and sudo
-RUN apt-get update \
-    && apt-get install -y locales openssh-server sudo dos2unix \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN yum update -y \
+    && yum install -y glibc-langpack-en openssh-server sudo dos2unix \
+    && yum clean all \
+    && rm -rf /var/cache/yum
 
 # Install tools
-RUN apt-get update \
-    && apt-get install -y curl vim openssl iproute2 iputils-ping net-tools lsof unzip git \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN yum update -y \
+    && yum install -y curl vim openssl iproute iputils net-tools lsof unzip git \
+    && yum clean all \
+    && rm -rf /var/cache/yum
 
 # Remove unnecessary services
 RUN rm -rf /etc/systemd/system/*.wants/* \
@@ -36,7 +36,7 @@ RUN ./add_motd.sh
 RUN systemctl mask systemd-firstboot.service systemd-udevd.service systemd-modules-load.service \
     && systemctl unmask systemd-logind
 
-# add users
+# add user
 RUN echo "root:root" | chpasswd
 
 ARG USERS
@@ -61,6 +61,6 @@ EXPOSE 22
 EXPOSE 7681
 
 # Setup services to run on boot
-RUN systemctl enable ssh ttyd
+RUN systemctl enable sshd ttyd
 
 ENTRYPOINT ["/sbin/init"]

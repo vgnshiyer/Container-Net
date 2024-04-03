@@ -24,17 +24,26 @@ RUN rm -rf /etc/systemd/system/*.wants/* \
     && rm -rf /lib/systemd/system/sockets.target.wants/*udev* \
     && rm -rf /lib/systemd/system/sockets.target.wants/*initctl* \
     && rm -rf /lib/systemd/system/basic.target.wants/* \
-    && rm -rf /lib/systemd/system/anaconda.target.wants/*
+    && rm -rf /lib/systemd/system/anaconda.target.wants/* \
+    && rm -rf /etc/update-motd.d/* \
+    && rm -rf /etc/legal
+
+# add custom message to look cool
+COPY /scripts/add_motd.sh add_motd.sh
+RUN chmod +x add_motd.sh
+RUN ./add_motd.sh
 
 RUN systemctl mask systemd-firstboot.service systemd-udevd.service systemd-modules-load.service \
     && systemctl unmask systemd-logind
 
 # add user
-RUN useradd -m -d /home/guest -s /bin/bash guest \
-    && echo "guest:guest" | chpasswd
-RUN echo "guest ALL=(ALL) ALL" >> /etc/sudoers
-
 RUN echo "root:root" | chpasswd
+
+ARG USERS
+ENV USERS=$USERS
+COPY /scripts/create_users.sh create_users.sh
+RUN chmod +x create_users.sh
+RUN ./create_users.sh
 
 # Setup ttyd
 COPY binaries/ttyd.x86_64 /bin/ttyd.x86_64

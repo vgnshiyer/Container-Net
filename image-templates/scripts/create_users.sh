@@ -10,3 +10,5 @@ for i in "${GUESTS[@]}"; do
     echo "${USER[0]}:${USER[1]}" | chpasswd
     echo "${USER[0]} ALL:(ALL) ALL" >> /etc/sudoers
 done
+
+echo "echo -e \"\nYou are currently logged into '$HOSTNAME' as '$USER'.\"" >> /etc/profile
