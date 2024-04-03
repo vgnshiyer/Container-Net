@@ -13,8 +13,10 @@ RUN yum update -y \
     && rm -rf /var/cache/yum
 
 # Install tools
+ARG PACKAGES
+ENV PACKAGES=$PACKAGES
 RUN yum update -y \
-    && yum install -y curl vim openssl iproute iputils net-tools lsof unzip git \
+    && yum install -y curl $(echo $PACKAGES | sed 's/,[ ]*/ /g') \
     && yum clean all \
     && rm -rf /var/cache/yum
 

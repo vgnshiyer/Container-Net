@@ -9,6 +9,7 @@ services:
       dockerfile: ${UBUNTU_DOCKERFILE}
       args:
         - USERS=${USERS}
+        - PACKAGES=${UBUNTU_PACKAGES}
     image: ubuntu1
     privileged: true
     volumes:
@@ -21,65 +22,68 @@ services:
     networks:
       - container_net
 
-  # ubuntu2:
-  #   hostname: ubuntu2
-  #   container_name: ubuntu2
-  #   build:
-  #     context: "./image-templates"
-  #     dockerfile: ${UBUNTU_DOCKERFILE}
-  #     args:
-  #       - USERS=${USERS}
-  #   image: ubuntu2
-  #   privileged: true
-  #   volumes:
-  #     - ./data/ubuntu2/home/guest1:/home/guest1
-  #     - ./data/ubuntu2/home/guest2:/home/guest2
-  #     - ./data/ubuntu2/root:/root
-  #   ports:
-  #     - ${UBUNTU2_PORT_SSHD}:22
-  #     - ${UBUNTU2_PORT_TTYD}:7681
-  #   networks:
-  #     - container_net
+  ubuntu2:
+    hostname: ubuntu2
+    container_name: ubuntu2
+    build:
+      context: "./image-templates"
+      dockerfile: ${UBUNTU_DOCKERFILE}
+      args:
+        - USERS=${USERS}
+        - PACKAGES=${UBUNTU_PACKAGES}
+    image: ubuntu2
+    privileged: true
+    volumes:
+      - ./data/ubuntu2/home/guest1:/home/guest1
+      - ./data/ubuntu2/home/guest2:/home/guest2
+      - ./data/ubuntu2/root:/root
+    ports:
+      - ${UBUNTU2_PORT_SSHD}:22
+      - ${UBUNTU2_PORT_TTYD}:7681
+    networks:
+      - container_net
 
-  # fedora1:
-  #   hostname: fedora1
-  #   container_name: fedora1
-  #   build:
-  #     context: "./image-templates"
-  #     dockerfile: ${FEDORA_DOCKERFILE}
-  #     args:
-  #       - USERS=${USERS}
-  #   image: fedora1
-  #   privileged: true
-  #   volumes:
-  #     - ./data/fedora1/home/guest1:/home/guest1
-  #     - ./data/fedora1/home/guest2:/home/guest2
-  #     - ./data/fedora1/root:/root
-  #   ports:
-  #     - ${FEDORA1_PORT_SSHD}:22
-  #     - ${FEDORA1_PORT_TTYD}:7681
-  #   networks:
-  #     - container_net
+  fedora1:
+    hostname: fedora1
+    container_name: fedora1
+    build:
+      context: "./image-templates"
+      dockerfile: ${FEDORA_DOCKERFILE}
+      args:
+        - USERS=${USERS}
+        - PACKAGES=${FEDORA_PACKAGES}
+    image: fedora1
+    privileged: true
+    volumes:
+      - ./data/fedora1/home/guest1:/home/guest1
+      - ./data/fedora1/home/guest2:/home/guest2
+      - ./data/fedora1/root:/root
+    ports:
+      - ${FEDORA1_PORT_SSHD}:22
+      - ${FEDORA1_PORT_TTYD}:7681
+    networks:
+      - container_net
 
-  # fedora2:
-  #   hostname: fedora2
-  #   container_name: fedora2
-  #   build:
-  #     context: "./image-templates"
-  #     dockerfile: ${FEDORA_DOCKERFILE}
-  #     args:
-  #       - USERS=${USERS}
-  #   image: fedora2
-  #   privileged: true
-  #   volumes:
-  #     - ./data/fedora2/home/guest1:/home/guest1
-  #     - ./data/fedora2/home/guest2:/home/guest2
-  #     - ./data/fedora2/root:/root
-  #   ports:
-  #     - ${FEDORA2_PORT_SSHD}:22
-  #     - ${FEDORA2_PORT_TTYD}:7681
-  #   networks:
-  #     - container_net
+  fedora2:
+    hostname: fedora2
+    container_name: fedora2
+    build:
+      context: "./image-templates"
+      dockerfile: ${FEDORA_DOCKERFILE}
+      args:
+        - USERS=${USERS}
+        - PACKAGES=${FEDORA_PACKAGES}
+    image: fedora2
+    privileged: true
+    volumes:
+      - ./data/fedora2/home/guest1:/home/guest1
+      - ./data/fedora2/home/guest2:/home/guest2
+      - ./data/fedora2/root:/root
+    ports:
+      - ${FEDORA2_PORT_SSHD}:22
+      - ${FEDORA2_PORT_TTYD}:7681
+    networks:
+      - container_net
 
 networks:
   container_net:

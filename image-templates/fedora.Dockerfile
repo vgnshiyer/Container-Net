@@ -13,8 +13,10 @@ RUN dnf update -y \
     && rm -rf /var/cache/dnf
 
 # Install tools
+ARG PACKAGES
+ENV PACKAGES=$PACKAGES
 RUN dnf update -y \
-    && dnf install -y curl vim openssl iproute iputils net-tools lsof unzip git \
+    && dnf install -y curl $(echo $PACKAGES | sed 's/,[ ]*/ /g') \
     && dnf clean all \
     && rm -rf /var/cache/dnf
 

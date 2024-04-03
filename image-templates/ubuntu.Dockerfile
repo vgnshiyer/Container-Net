@@ -13,8 +13,10 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install tools
+ARG PACKAGES
+ENV PACKAGES=$PACKAGES
 RUN apt-get update \
-    && apt-get install -y curl vim openssl iproute2 iputils-ping net-tools lsof unzip git \
+    && apt-get install -y curl $(echo $PACKAGES | sed 's/,[ ]*/ /g') \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
