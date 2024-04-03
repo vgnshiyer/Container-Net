@@ -1,0 +1,19 @@
+- hosts: app
+  become: yes
+
+  tasks:
+    - name: Update
+      command: apt-get update -y
+    - name: Install Apache
+      package:
+        name: apache2
+        state: present
+    - name: replace index.html
+      copy:
+        src: index.html
+        dest: /var/www/html/index.html
+    - name: Start apache service
+      service:
+        name: apache2
+        state: started
+        enabled: yes

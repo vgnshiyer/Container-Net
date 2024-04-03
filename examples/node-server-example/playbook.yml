@@ -1,0 +1,40 @@
+- hosts: node
+  become: yes
+
+  vars:
+    node_app_location: /usr/local/opt/node
+
+  tasks:
+    - name: update
+      apt: update_cache=yes force_apt_get=yes
+    - name: install nodejs & npm
+      apt:
+        name: "{{ item }}"
+        update_cache: yes
+      with_items:
+        - nodejs
+        - npm
+    - name: ensure dir is present
+      file:
+        path: "{{ node_app_location }}"
+        state: directory
+    - name: copy node files
+      copy:
+        src: "{{ item }}"
+        dest: "{{ node_app_location }}"
+      with_items:
+        - app.js
+        - package.json
+    - name: install dependencies
+      npm:
+        path: "{{ node_app_location }}"
+    - name: start node server
+      command:
+        chdir: "{{ node_app_location }}"
+        cmd: node app
+      async: 1000
+      poll: 0
+    - name: check if server running
+      shell: ps aux | grep node
+      register: app_status
+    - debug: msg={{ app_status.stdout_lines }}
