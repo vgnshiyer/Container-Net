@@ -31,12 +31,14 @@ RUN rm -rf /etc/systemd/system/*.wants/* \
 RUN systemctl mask systemd-firstboot.service systemd-udevd.service systemd-modules-load.service \
     && systemctl unmask systemd-logind
 
-# add user
-RUN useradd -m -d /home/guest -s /bin/bash guest \
-    && echo "guest:guest" | chpasswd
-RUN echo "guest ALL=(ALL) ALL" >> /etc/sudoers
-
+# add users
 RUN echo "root:root" | chpasswd
+
+ARG USERS
+ENV USERS=$USERS
+COPY create_users.sh create_users.sh
+RUN chmod +x create_users.sh
+RUN ./create_users.sh
 
 # Setup ttyd
 COPY binaries/ttyd.x86_64 /bin/ttyd.x86_64
