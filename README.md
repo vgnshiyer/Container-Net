@@ -1,6 +1,9 @@
-<img width="501" alt="Screenshot 2024-04-05 at 10 53 21 AM" src="https://github.com/vgnshiyer/Container-Net/assets/39982819/d4f99c16-d6b7-4835-a7d9-c4d0f1706aed">
+<!--<img width="501" alt="Screenshot 2024-04-05 at 10 53 21 AM" src="https://github.com/vgnshiyer/Container-Net/assets/39982819/d4f99c16-d6b7-4835-a7d9-c4d0f1706aed">-->
+# Container-Net
 
 A lightweight container based network using docker. (Practice Linux Administration without blowing off your AWS bills)
+
+<img width="266" alt="Screenshot 2024-04-05 at 11 46 22 AM" src="https://github.com/vgnshiyer/Container-Net/assets/39982819/6ff40de3-f5c4-424d-9b7e-5c472fcaddec">
 
 <!-- Badges -->
 [![](https://badgen.net/github/license/vgnshiyer/Container-Net)](https://github.com/vgnshiyer/Container-Net/blob/master/LICENSE)
