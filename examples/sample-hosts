@@ -1,0 +1,10 @@
+# /etc/ansible/hosts
+
+[app]
+ubuntu2
+
+[all:vars]
+ansible_connection=ssh
+ansible_user=guest1
+ansible_ssh_pass=guest1
+ansible_sudo_pass=guest1
